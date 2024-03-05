@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { ProfileService } from './profile.service';
@@ -9,6 +9,11 @@ import { Profile } from './schemas/profile.schema';
 @Controller('profile')
 export class ProfileController {
   constructor(private profileService: ProfileService) {}
+
+  @Get(':id')
+  async getProfile(@Param('id') id: string): Promise<Profile> {
+    return this.profileService.getProfileById(id);
+  }
 
   @Post()
   @ApiBody({ description: 'Create Profile', type: CreateProfileDto })

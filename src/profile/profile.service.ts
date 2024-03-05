@@ -11,6 +11,14 @@ export class ProfileService {
     @InjectModel(Profile.name) private profileModel: Model<Profile>,
   ) {}
 
+  async getProfileById(id: string): Promise<Profile> {
+    const profile = await this.profileModel.findById(id);
+    if (!profile) {
+      throw new NotFoundException();
+    }
+    return profile;
+  }
+
   async createProfile(createProfileDto: CreateProfileDto): Promise<Profile> {
     const createProfile = new this.profileModel(createProfileDto);
     return createProfile.save();
