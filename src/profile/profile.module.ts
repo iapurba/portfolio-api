@@ -10,5 +10,6 @@ import { Profile, ProfileSchema } from './schemas/profile.schema';
   ],
   controllers: [ProfileController],
   providers: [ProfileService],
+  exports: [ProfileService],
 })
 export class ProfileModule {}
