@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { Document } from 'mongoose';
 
 interface ContactDetails {
   address: string;
@@ -7,10 +7,8 @@ interface ContactDetails {
   phone: string;
 }
 
-export type ProfileDocument = HydratedDocument<Profile>;
-
 @Schema()
-export class Profile {
+export class Profile extends Document {
   @Prop({ required: true })
   name: string;
 
