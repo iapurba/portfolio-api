@@ -10,7 +10,10 @@ interface ContactDetails {
 @Schema()
 export class Profile extends Document {
   @Prop({ required: true })
-  name: string;
+  firstname: string;
+
+  @Prop({ required: true })
+  lastname: string;
 
   @Prop({ required: true })
   intro: string;

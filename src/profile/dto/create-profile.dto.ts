@@ -2,7 +2,10 @@ import { ArrayMinSize, IsArray, IsNotEmpty } from 'class-validator';
 
 export class CreateProfileDto {
   @IsNotEmpty()
-  readonly name: string;
+  readonly firstname: string;
+
+  @IsNotEmpty()
+  readonly lastname: string;
 
   @IsNotEmpty()
   readonly intro: string;
