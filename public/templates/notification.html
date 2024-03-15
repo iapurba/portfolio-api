@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Email from {{senderName}} </title>
+</head>
+<body style="font-family: Arial, sans-serif;">
+
+  <h1>New Email Notification</h1>
+
+  <p>Hello {{ownerName}},</p>
+
+  <p>You have received a new email from:</p>
+  <ul>
+    <li><strong>Name:</strong> {{senderName}}</li>
+    <li><strong>Email:</strong> {{senderEmail}}</li>
+    <li><strong>Subject:</strong> {{subject}}</li>
+  </ul>
+
+  <p>Message:</p>
+  <blockquote style="border-left: 3px solid #ccc; padding-left: 10px;">
+    {{message}}
+  </blockquote>
+
+  <p>Please respond to this email as soon as possible.</p>
+
+  <p>Thank you</p>
+
+</body>
+</html>
