@@ -6,7 +6,7 @@ import { ConfigService } from '@nestjs/config';
 import { ProfileService } from 'src/profile/profile.service';
 import * as fs from 'fs';
 import { join } from 'path';
-import { contactConstants } from 'src/constants/contact.constants';
+import { contactConstants } from 'src/common/constants/contact.constants';
 
 @Injectable()
 export class ContactService {
