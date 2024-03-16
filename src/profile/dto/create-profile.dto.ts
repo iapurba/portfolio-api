@@ -24,4 +24,12 @@ export class CreateProfileDto {
     readonly email: string;
     readonly phone: string;
   };
+
+  readonly socialAccounts: {
+    readonly linkedIn?: string;
+    readonly github?: string;
+    readonly instagram?: string;
+    readonly facebook?: string;
+    readonly x?: string;
+  };
 }

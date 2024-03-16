@@ -39,6 +39,6 @@ export class ProfileController {
     @Param('id') id: string,
     @Body() updateProfileDto: UpdateProfileDto,
   ) {
-    this.profileService.updateProfile(id, updateProfileDto);
+    return this.profileService.updateProfile(id, updateProfileDto);
   }
 }

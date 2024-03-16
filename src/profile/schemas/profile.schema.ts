@@ -7,6 +7,14 @@ interface ContactDetails {
   phone: string;
 }
 
+interface SocialAccounts {
+  linkedIn?: string;
+  github?: string;
+  instagram?: string;
+  facebook?: string;
+  x?: string;
+}
+
 @Schema()
 export class Profile extends Document {
   @Prop({ required: true })
@@ -26,6 +34,9 @@ export class Profile extends Document {
 
   @Prop({ required: true, type: Object })
   contactDetails: ContactDetails;
+
+  @Prop({ type: Object })
+  socialAccounts: SocialAccounts;
 }
 
 export const ProfileSchema = SchemaFactory.createForClass(Profile);
