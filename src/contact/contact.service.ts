@@ -22,8 +22,23 @@ export class ContactService {
     if (!owner) {
       throw new NotFoundException('Owner Profile Not Found');
     }
+    const ownerName = `${owner.firstname}_${owner.lastname}`.toUpperCase();
+    console.log(ownerName);
+
+    const noReplyEmailAddress = this.configService.get(
+      ownerName === 'SOURAV_DINDA'
+        ? 'NO_REPLY_EMAIL_ADDRESS'
+        : 'NO_REPLY_EMAIL_ADDRESS_2',
+    );
+    const noReplyEmailPassword = this.configService.get(
+      ownerName === 'SOURAV_DINDA'
+        ? 'NO_REPLY_EMAIL_PASSWORD'
+        : 'NO_REPLY_EMAIL_PASSWORD_2',
+    );
     // Send auto reply to the sender email address
     const autoReply = await this.sendAutoReply(
+      noReplyEmailAddress,
+      noReplyEmailPassword,
       senderEmail,
       senderName,
       subject,
@@ -35,6 +50,8 @@ export class ContactService {
 
     // Send a notification to the owner email address
     const notification = await this.sendNotification(
+      noReplyEmailAddress,
+      noReplyEmailPassword,
       senderEmail,
       senderName,
       subject,
@@ -51,6 +68,8 @@ export class ContactService {
   }
 
   private async sendAutoReply(
+    noReplyEmailAddress: string,
+    noReplyEmailPassword: string,
     senderEmail: string,
     senderName: string,
     subject: string,
@@ -71,10 +90,18 @@ export class ContactService {
       .replaceAll('{{ownerPhone}}', ownerPhone);
 
     const autoReplySubject = contactConstants.AUTO_REPLY_SUBJECT;
-    return await this.sendEmail(senderEmail, autoReplySubject, htmlContent);
+    return await this.sendEmail(
+      noReplyEmailAddress,
+      noReplyEmailPassword,
+      senderEmail,
+      autoReplySubject,
+      htmlContent,
+    );
   }
 
   private async sendNotification(
+    noReplyEmailAddress: string,
+    noReplyEmailPassword: string,
     senderEmail: string,
     senderName: string,
     subject: string,
@@ -96,31 +123,32 @@ export class ContactService {
       .replaceAll('{{ownerName}}', ownerName);
 
     const notificationSubject = `New Email from ${senderName}`;
-    return await this.sendEmail(ownerEmail, notificationSubject, htmlContent);
+    return await this.sendEmail(
+      noReplyEmailAddress,
+      noReplyEmailPassword,
+      ownerEmail,
+      notificationSubject,
+      htmlContent,
+    );
   }
 
   private async sendEmail(
+    senderEmailAddress: string,
+    senderEmailPassword: string,
     to: string,
     subject: string,
     htmlConent: string,
   ): Promise<string> {
-    const noReplayEmailAddress = this.configService.get(
-      'NO_REPLY_EMAIL_ADDRESS',
-    );
-    const noReplyEmailPassword = this.configService.get(
-      'NO_REPLY_EMAIL_PASSWORD',
-    );
-
     const transporter = nodemailer.createTransport({
       service: contactConstants.EMAIL_SERVICE,
       auth: {
-        user: noReplayEmailAddress,
-        pass: noReplyEmailPassword,
+        user: senderEmailAddress,
+        pass: senderEmailPassword,
       },
     });
 
     const emailOptions: EmailOptions = {
-      from: noReplayEmailAddress,
+      from: senderEmailAddress,
       to,
       subject,
       html: htmlConent,
