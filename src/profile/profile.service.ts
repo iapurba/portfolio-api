@@ -4,7 +4,7 @@ import { Profile } from './schemas/profile.schema';
 import { Model } from 'mongoose';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
-import { profileConstants } from 'src/common/constants/profile.constants';
+import { profileConstants } from 'src/common/constants/profile.constant';
 
 @Injectable()
 export class ProfileService {
@@ -19,7 +19,7 @@ export class ProfileService {
   async getFullProfile(id: string): Promise<Profile> {
     const profile = await this.profileModel.findById(id);
     if (!profile) {
-      throw new NotFoundException();
+      throw new NotFoundException(profileConstants.PROFILE_NOT_FOUND);
     }
     return profile;
   }

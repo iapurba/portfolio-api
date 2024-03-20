@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Project } from './schemas/project.schema';
 import { Model } from 'mongoose';
@@ -6,6 +10,8 @@ import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { ProfileService } from 'src/profile/profile.service';
 import { Profile } from 'src/profile/schemas/profile.schema';
+import { profileConstants } from 'src/common/constants/profile.constant';
+import { projectConstants } from 'src/common/constants/project.constant';
 
 @Injectable()
 export class ProjectService {
@@ -17,7 +23,7 @@ export class ProjectService {
   private async findProfile(profileId: string): Promise<Profile> {
     const profile = await this.profileService.getProfileById(profileId);
     if (!profile) {
-      throw new NotFoundException('Invalid profile id');
+      throw new BadRequestException(profileConstants.BAD_REQUEST);
     }
     return profile;
   }
@@ -31,7 +37,7 @@ export class ProjectService {
   async getProject(projectId: string): Promise<Project> {
     const project = await this.projectModel.findById(projectId);
     if (!project) {
-      throw new NotFoundException();
+      throw new NotFoundException(projectConstants.PROJECT_NOT_FOUND);
     }
     return project;
   }
@@ -42,7 +48,7 @@ export class ProjectService {
   ): Promise<Project[]> {
     const profile = await this.findProfile(profileId);
     if (!profile) {
-      throw new NotFoundException();
+      throw new NotFoundException(profileConstants.PROFILE_NOT_FOUND);
     }
     const createdProjects = await this.projectModel.insertMany(
       projectDataList.map((data: CreateProjectDto) => ({
@@ -63,7 +69,7 @@ export class ProjectService {
       { new: true },
     );
     if (!updatedProject) {
-      throw new NotFoundException();
+      throw new NotFoundException(projectConstants.PROJECT_NOT_FOUND);
     }
     return updatedProject;
   }

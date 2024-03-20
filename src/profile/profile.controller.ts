@@ -14,6 +14,7 @@ import { ProfileService } from './profile.service';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Profile } from './schemas/profile.schema';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { profileConstants } from 'src/common/constants/profile.constant';
 
 @ApiTags('Profiles')
 @Controller('profiles')
@@ -24,7 +25,7 @@ export class ProfileController {
   async getProfile(@Param('id') id: string): Promise<Profile> {
     const profile = await this.profileService.getProfileById(id);
     if (!profile) {
-      throw new NotFoundException();
+      throw new NotFoundException(profileConstants.PROFILE_NOT_FOUND);
     }
     return profile;
   }
