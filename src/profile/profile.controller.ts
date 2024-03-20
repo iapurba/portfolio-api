@@ -8,7 +8,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { ProfileService } from './profile.service';
 import { UpdateProfileDto } from './dto/update-profile.dto';
@@ -32,6 +32,7 @@ export class ProfileController {
   @UseGuards(JwtAuthGuard)
   @Post()
   @ApiBody({ description: 'Create Profile', type: CreateProfileDto })
+  @ApiOkResponse({ description: 'Created Profile details', type: Profile })
   async createProfile(
     @Body() createProfileDto: CreateProfileDto,
   ): Promise<Profile> {

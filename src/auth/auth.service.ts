@@ -29,7 +29,7 @@ export class AuthService {
     if (!passwordMatch) {
       throw new UnauthorizedException('Invalid Credentials');
     }
-    const payload = { email: user.email, sub: user._id };
+    const payload = { email: user.email, sub: user._id, role: user.role };
     return {
       access_token: this.jwtService.sign(payload),
     };
@@ -42,10 +42,16 @@ export class AuthService {
       firstname: signUpDto.firstname,
       lastname: signUpDto.lastname,
       password: hashedPassword,
+      role: signUpDto.role,
     });
-    const payload = { email: createdUser.email, sub: createdUser._id };
     return {
-      access_token: this.jwtService.sign(payload),
+      message: 'User Created Successful',
+      user: {
+        email: createdUser.email,
+        firstname: createdUser.firstname,
+        lastname: createdUser.lastname,
+        role: createdUser.role,
+      },
     };
   }
 
