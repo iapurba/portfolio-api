@@ -1,4 +1,4 @@
-import { ArrayMinSize, IsArray, IsNotEmpty } from 'class-validator';
+import { ArrayMinSize, IsArray, IsNotEmpty, IsUrl } from 'class-validator';
 
 export class CreateProfileDto {
   @IsNotEmpty()
@@ -32,4 +32,22 @@ export class CreateProfileDto {
     readonly facebook?: string;
     readonly x?: string;
   };
+
+  @IsUrl(
+    { require_tld: false },
+    { message: 'Invalid URL provided for Profile Image URL' },
+  )
+  readonly profileImageUrl: string;
+
+  @IsUrl(
+    { require_tld: false },
+    { message: 'Invalid URL provided for Bio Image URL' },
+  )
+  readonly bioImageUrl: string;
+
+  @IsUrl(
+    { require_tld: false },
+    { message: 'Invalid URL provided for Bio Image URL' },
+  )
+  readonly downloadCvUrl: string;
 }

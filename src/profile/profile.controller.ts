@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -14,14 +15,18 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Profile } from './schemas/profile.schema';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
-@ApiTags('profile')
-@Controller('profile')
+@ApiTags('Profiles')
+@Controller('profiles')
 export class ProfileController {
   constructor(private profileService: ProfileService) {}
 
   @Get(':id')
   async getProfile(@Param('id') id: string): Promise<Profile> {
-    return this.profileService.getProfileById(id);
+    const profile = await this.profileService.getProfileById(id);
+    if (!profile) {
+      throw new NotFoundException();
+    }
+    return profile;
   }
 
   @UseGuards(JwtAuthGuard)

@@ -37,6 +37,15 @@ export class Profile extends Document {
 
   @Prop({ type: Object })
   socialAccounts: SocialAccounts;
+
+  @Prop({ required: true })
+  profileImageUrl: string;
+
+  @Prop({ required: true })
+  bioImageUrl: string;
+
+  @Prop({ required: true })
+  downloadCvUrl: string;
 }
 
 export const ProfileSchema = SchemaFactory.createForClass(Profile);

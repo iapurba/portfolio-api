@@ -12,10 +12,14 @@ export class ProfileService {
     @InjectModel(Profile.name) private profileModel: Model<Profile>,
   ) {}
 
-  async getProfileById(id: string): Promise<Profile> {
+  async getProfileById(id: string): Promise<Profile | null> {
+    return this.profileModel.findById(id).exec();
+  }
+
+  async getFullProfile(id: string): Promise<Profile> {
     const profile = await this.profileModel.findById(id);
     if (!profile) {
-      throw new NotFoundException(profileConstants.PROFILE_NOT_FOUND);
+      throw new NotFoundException();
     }
     return profile;
   }
