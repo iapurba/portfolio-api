@@ -1,7 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -45,5 +48,15 @@ export class ProjectController {
     @Body() updateProjectDto: UpdateProjectDto,
   ): Promise<Project> {
     return this.projectService.updateProject(projectId, updateProjectDto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':projectId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteProject(
+    @Param('profileId') profileId: string,
+    @Param('projectId') projectId: string,
+  ) {
+    return this.projectService.deleteProject(profileId, projectId);
   }
 }

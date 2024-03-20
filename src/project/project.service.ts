@@ -73,4 +73,16 @@ export class ProjectService {
     }
     return updatedProject;
   }
+
+  async deleteProject(profileId: string, projectId: string) {
+    const profile = await this.profileService.getProfileById(profileId);
+    if (!profile) {
+      throw new BadRequestException(profileConstants.BAD_REQUEST);
+    }
+    try {
+      await this.projectModel.findByIdAndDelete(projectId);
+    } catch (error) {
+      throw error;
+    }
+  }
 }
