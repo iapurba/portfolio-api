@@ -36,16 +36,21 @@ export class ProjectService {
     return project;
   }
 
-  async createProject(
+  async createProjects(
     profileId: string,
-    createProjectDto: CreateProjectDto,
-  ): Promise<Project> {
+    projectDataList: CreateProjectDto[],
+  ): Promise<Project[]> {
     const profile = await this.findProfile(profileId);
-    const createdProject = new this.projectModel({
-      profileId: profile,
-      ...createProjectDto,
-    });
-    return await createdProject.save();
+    if (!profile) {
+      throw new NotFoundException();
+    }
+    const createdProjects = await this.projectModel.insertMany(
+      projectDataList.map((data: CreateProjectDto) => ({
+        ...data,
+        profileId: profile._id,
+      })),
+    );
+    return createdProjects;
   }
 
   async updateProject(

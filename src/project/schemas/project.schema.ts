@@ -1,25 +1,24 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 import { Profile } from 'src/profile/schemas/profile.schema';
 
-export type ProjectDocument = HydratedDocument<Project>;
-
 @Schema()
-export class Project {
+export class Project extends Document {
   @Prop({
+    required: true,
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Profile',
   })
   profileId: Profile;
 
   @Prop({ required: true })
-  name: string;
+  title: string;
 
   @Prop({ required: true })
   description: string;
 
   @Prop({ required: true, type: [String] })
-  toolsUsed: [string];
+  tools: [string];
 
   @Prop({ required: true })
   imageUrl: string;

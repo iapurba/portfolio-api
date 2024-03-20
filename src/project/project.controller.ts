@@ -14,12 +14,12 @@ import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
-@ApiTags('project')
-@Controller('project/:profileId')
+@ApiTags('Project')
+@Controller('/profiles/:profileId/projects')
 export class ProjectController {
   constructor(private projectService: ProjectService) {}
 
-  @Get('all')
+  @Get()
   async findAll(@Param('profileId') profileId: string): Promise<Project[]> {
     return this.projectService.findProjectsByProfileId(profileId);
   }
@@ -31,19 +31,21 @@ export class ProjectController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async createProject(
+  async createProjects(
     @Param('profileId') profileId: string,
-    @Body() createProjectDto: CreateProjectDto,
-  ): Promise<Project> {
-    return this.projectService.createProject(profileId, createProjectDto);
+    @Body() projectDataList: CreateProjectDto[],
+  ): Promise<Project[]> {
+    return this.projectService.createProjects(profileId, projectDataList);
   }
 
   @UseGuards(JwtAuthGuard)
   @Put(':projectId')
   async updateProject(
     @Param('projectId') projectId: string,
-    updateProjectDto: UpdateProjectDto,
+    @Body() updateProjectDto: UpdateProjectDto,
   ): Promise<Project> {
+    console.log(projectId);
+    console.log(updateProjectDto);
     return this.projectService.updateProject(projectId, updateProjectDto);
   }
 }

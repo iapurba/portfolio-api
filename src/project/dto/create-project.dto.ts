@@ -1,8 +1,8 @@
-import { ArrayMinSize, IsArray, IsNotEmpty } from 'class-validator';
+import { ArrayMinSize, IsArray, IsNotEmpty, IsUrl } from 'class-validator';
 
 export class CreateProjectDto {
   @IsNotEmpty()
-  name: string;
+  title: string;
 
   @IsNotEmpty()
   description: string;
@@ -13,9 +13,17 @@ export class CreateProjectDto {
   @IsNotEmpty()
   @IsArray()
   @ArrayMinSize(1)
-  toolsUsed: [string];
+  tools: [string];
 
-  sourceCodeUrl?: string;
+  @IsUrl(
+    { require_tld: false },
+    { message: 'Invalid URL provided for source code URL' },
+  )
+  sourceCodeUrl: string;
 
-  liveUrl?: string;
+  @IsUrl(
+    { require_tld: false },
+    { message: 'Invalid URL provided for live URL' },
+  )
+  liveUrl: string;
 }
