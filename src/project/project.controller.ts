@@ -44,8 +44,6 @@ export class ProjectController {
     @Param('projectId') projectId: string,
     @Body() updateProjectDto: UpdateProjectDto,
   ): Promise<Project> {
-    console.log(projectId);
-    console.log(updateProjectDto);
     return this.projectService.updateProject(projectId, updateProjectDto);
   }
 }
