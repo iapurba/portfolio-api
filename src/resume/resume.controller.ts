@@ -14,28 +14,31 @@ import { UpdateResumeDto } from './dto/update-resume.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
-@Controller('resume')
-@ApiTags('resume')
+@Controller('/profiles/:profileId/resume')
+@ApiTags('Resume')
 export class ResumeController {
   constructor(private resumeService: ResumeService) {}
 
-  @Get(':id')
-  async getResume(@Param('id') id: string): Promise<Resume> {
-    return this.resumeService.getResume(id);
+  @Get()
+  async getResume(@Param('profileId') profileId: string): Promise<Resume> {
+    return this.resumeService.getResumeByProfileId(profileId);
   }
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  createResume(@Body() createResumeDto: CreateResumeDto): Promise<Resume> {
-    return this.resumeService.createResume(createResumeDto);
+  createResume(
+    @Param('profileId') profileId: string,
+    @Body() createResumeDto: CreateResumeDto,
+  ): Promise<Resume> {
+    return this.resumeService.createResume(profileId, createResumeDto);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put(':id')
+  @Put(':resumeId')
   async updateResume(
-    @Param('id') id: string,
+    @Param('resumeId') resumeId: string,
     updateResumeDto: UpdateResumeDto,
   ): Promise<Resume> {
-    return this.resumeService.updateResume(id, updateResumeDto);
+    return this.resumeService.updateResume(resumeId, updateResumeDto);
   }
 }

@@ -1,3 +1,5 @@
+import { IsNotEmpty } from 'class-validator';
+
 export class JobDto {
   id: number;
   title: string;
@@ -33,9 +35,17 @@ export class CertificationDto {
 }
 
 export class CreateResumeDto {
+  @IsNotEmpty()
   profileId: string;
+
+  @IsNotEmpty()
   workExperiences: WorkExperienceDto[];
+
+  @IsNotEmpty()
   technicalSkills: TechnicalSkillDto[];
+
+  @IsNotEmpty()
   educations: EducationDto[];
+
   certifications: CertificationDto[];
 }

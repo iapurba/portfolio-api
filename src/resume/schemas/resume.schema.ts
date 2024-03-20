@@ -39,6 +39,8 @@ export type ResumeDocument = HydratedDocument<Resume>;
 @Schema()
 export class Resume {
   @Prop({
+    required: true,
+    unique: true,
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Profile',
   })
