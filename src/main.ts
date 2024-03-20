@@ -4,10 +4,10 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('/api/v1');
+  app.setGlobalPrefix('/portfolio-api');
 
   const config = new DocumentBuilder()
-    .setTitle('The Ultimate SDE Portfolio API')
+    .setTitle('Software Engineer Portfolio APIs')
     .setDescription(
       'This app provides RESTFul APIs for software developer portfolio',
     )
