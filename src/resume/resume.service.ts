@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -35,6 +36,14 @@ export class ResumeService {
     profileId: string,
     resumeData: CreateResumeDto,
   ): Promise<Resume> {
+    const profile = await this.profileService.getProfileById(profileId);
+    if (!profile) {
+      throw new BadRequestException(profileConstants.BAD_REQUEST);
+    }
+    const resume = await this.resumeModel.findOne({ profileId });
+    if (resume) {
+      throw new ConflictException(resumeConstants.ALREAY_EXIST);
+    }
     const createdResume = new this.resumeModel({
       ...resumeData,
       profileId,
@@ -43,9 +52,14 @@ export class ResumeService {
   }
 
   async updateResume(
+    profileId: string,
     resumeId: string,
     updateResumeDto: UpdateResumeDto,
   ): Promise<Resume> {
+    const profile = await this.profileService.getProfileById(profileId);
+    if (!profile) {
+      throw new BadRequestException(profileConstants.BAD_REQUEST);
+    }
     const updatedResume = await this.resumeModel.findByIdAndUpdate(
       resumeId,
       updateResumeDto,
@@ -55,5 +69,17 @@ export class ResumeService {
       throw new NotFoundException(resumeConstants.RESUME_NOT_FOUND);
     }
     return updatedResume;
+  }
+
+  async deleteResume(profileId: string) {
+    const profile = await this.profileService.getProfileById(profileId);
+    if (!profile) {
+      throw new BadRequestException(profileConstants.BAD_REQUEST);
+    }
+    try {
+      await this.resumeModel.findOneAndDelete({ profileId });
+    } catch (error) {
+      throw error;
+    }
   }
 }

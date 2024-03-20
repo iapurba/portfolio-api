@@ -1,7 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -36,9 +39,21 @@ export class ResumeController {
   @UseGuards(JwtAuthGuard)
   @Put(':resumeId')
   async updateResume(
+    @Param('profileId') profileId: string,
     @Param('resumeId') resumeId: string,
     updateResumeDto: UpdateResumeDto,
   ): Promise<Resume> {
-    return this.resumeService.updateResume(resumeId, updateResumeDto);
+    return this.resumeService.updateResume(
+      profileId,
+      resumeId,
+      updateResumeDto,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteResume(@Param('profileId') profileId: string) {
+    return this.resumeService.deleteResume(profileId);
   }
 }
