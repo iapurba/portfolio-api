@@ -43,4 +43,12 @@ export class ProfileService {
     }
     return updatedProfile;
   }
+
+  async deleteProfile(id: string) {
+    try {
+      await this.profileModel.findByIdAndDelete(id);
+    } catch (error) {
+      throw error;
+    }
+  }
 }
