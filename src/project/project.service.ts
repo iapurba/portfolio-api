@@ -37,7 +37,7 @@ export class ProjectService {
   async getProject(projectId: string): Promise<Project> {
     const project = await this.projectModel.findById(projectId);
     if (!project) {
-      throw new NotFoundException(projectConstants.PROJECT_NOT_FOUND);
+      throw new NotFoundException(projectConstants.NOT_FOUND);
     }
     return project;
   }
@@ -69,7 +69,7 @@ export class ProjectService {
       { new: true },
     );
     if (!updatedProject) {
-      throw new NotFoundException(projectConstants.PROJECT_NOT_FOUND);
+      throw new NotFoundException(projectConstants.NOT_FOUND);
     }
     return updatedProject;
   }

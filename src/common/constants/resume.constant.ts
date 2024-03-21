@@ -1,6 +1,7 @@
 export const resumeConstants = {
-  RESUME_CREATED: 'Resume created successfully.',
-  RESUME_UPDATED: 'Resume created successfully.',
-  RESUME_NOT_FOUND: 'Resume not found.',
-  ALREAY_EXIST: 'Resume already exists for this Profile',
+  CREATED: 'Resume created successfully.',
+  UPDATED: 'Resume created successfully.',
+  NOT_FOUND: 'Resume not found.',
+  DELETED: 'Resume deleted successfully.',
+  ALREAY_EXIST: 'Resume already exists for this profile.',
 };

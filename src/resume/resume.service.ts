@@ -27,7 +27,7 @@ export class ResumeService {
     }
     const resume = await this.resumeModel.findOne({ profileId: profile._id });
     if (!resume) {
-      throw new NotFoundException(resumeConstants.RESUME_NOT_FOUND);
+      throw new NotFoundException(resumeConstants.NOT_FOUND);
     }
     return resume;
   }
@@ -65,7 +65,7 @@ export class ResumeService {
       { new: true },
     );
     if (!updatedResume) {
-      throw new NotFoundException(resumeConstants.RESUME_NOT_FOUND);
+      throw new NotFoundException(resumeConstants.NOT_FOUND);
     }
     return updatedResume;
   }
