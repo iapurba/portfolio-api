@@ -7,12 +7,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('/portfolio-api');
 
-  // Enable CORS
-  app.enableCors({
-    origin: 'http://localhost:3000',
-    credentials: true,
-  });
-
   const config = new DocumentBuilder()
     .setTitle(swaggerDocsConstants.TITLE)
     .setDescription(swaggerDocsConstants.DESCRIPTION)
