@@ -59,6 +59,7 @@ $ yarn install
 
 Example `.env.development` file:
 
+```javascript
 #### MONGO DB CONNECTION STRINGS
 MONGO_DB_CONNECTION_STRING=your-mongodb-connection-string
 
@@ -67,11 +68,14 @@ JWT_SECRET=your-secret-key
 
 #### CONTACT EMAIL & APP PASSWORD
 NO_REPLY_EMAIL_ADDRESS=your-email-address
+
 NO_REPLY_EMAIL_PASSWORD=your-email-password
 
+#### DEFAULT
 NO_REPLY_EMAIL_ADDRESS_2=another-email-address
-NO_REPLY_EMAIL_PASSWORD_2=another-email-password
 
+NO_REPLY_EMAIL_PASSWORD_2=another-email-password
+```
 
 ### 4. Start the server:
 
