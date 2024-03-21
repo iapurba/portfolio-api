@@ -39,10 +39,13 @@ This is a RESTful API built with Nest.js, MongoDB, and TypeScript for managing p
 
 To get started with the Portfolio REST API, follow these steps:
 
-1. Clone the repository:
-git clone <repository-url>
+### 1. Clone the repository:
 
-2. Install dependencies:
+```bash
+git clone <repository-url>
+```
+
+### 2. Install dependencies:
 
 ```bash
 $ cd portfolio-api
@@ -50,27 +53,27 @@ $ cd portfolio-api
 $ yarn install
 ```
 
-3. Set up environment variables:
+### 3. Set up environment variables:
 - Create a `.env` file based on the provided `.env.example`.
 - Modify the variables to match your environment setup.
 
 Example `.env.development` file:
 
-### MONGO DB CONNECTION STRINGS
-MONGO_DB_CONNECTION_STRING=<your-mongodb-connection-string>
+#### MONGO DB CONNECTION STRINGS
+MONGO_DB_CONNECTION_STRING=your-mongodb-connection-string
 
-### SECRET KEY
-JWT_SECRET=<your-secret-key>
+#### SECRET KEY
+JWT_SECRET=your-secret-key
 
-### CONTACT EMAIL & APP PASSWORD
-NO_REPLY_EMAIL_ADDRESS=<your-email-address>
-NO_REPLY_EMAIL_PASSWORD=<your-email-password>
+#### CONTACT EMAIL & APP PASSWORD
+NO_REPLY_EMAIL_ADDRESS=your-email-address
+NO_REPLY_EMAIL_PASSWORD=your-email-password
 
-NO_REPLY_EMAIL_ADDRESS_2=<another-email-address>
-NO_REPLY_EMAIL_PASSWORD_2=<another-email-password>
+NO_REPLY_EMAIL_ADDRESS_2=another-email-address
+NO_REPLY_EMAIL_PASSWORD_2=another-email-password
 
 
-## Running the app
+### 4. Start the server:
 
 ```bash
 # development
@@ -83,7 +86,7 @@ $ yarn run start:dev
 $ yarn run start:prod
 ```
 
-## Test
+### Test
 
 ```bash
 # unit tests
@@ -95,6 +98,19 @@ $ yarn run test:e2e
 # test coverage
 $ yarn run test:cov
 ```
+
+**Comment:** This command starts the server, making the API accessible at `http://localhost:3001`.
+
+### 5. The API will be accessible at `http://localhost:3001`.
+
+## Authentication
+
+- JWT (JSON Web Tokens) are used for authentication.
+- To access protected endpoints, include the JWT token in the Authorization header of the request.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit issues or pull requests.
 
 ## Support
 
