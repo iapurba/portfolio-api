@@ -19,7 +19,7 @@ export class ProfileService {
   async getFullProfile(id: string): Promise<Profile> {
     const profile = await this.profileModel.findById(id);
     if (!profile) {
-      throw new NotFoundException(profileConstants.PROFILE_NOT_FOUND);
+      throw new NotFoundException(profileConstants.NOT_FOUND);
     }
     return profile;
   }
@@ -39,7 +39,7 @@ export class ProfileService {
       { new: true },
     );
     if (!updatedProfile) {
-      throw new NotFoundException(profileConstants.PROFILE_NOT_FOUND);
+      throw new NotFoundException(profileConstants.NOT_FOUND);
     }
     return updatedProfile;
   }

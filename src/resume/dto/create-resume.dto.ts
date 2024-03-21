@@ -1,51 +1,84 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
 export class JobDto {
-  id: number;
+  @ApiProperty()
   title: string;
+
+  @ApiProperty()
   startDate: string;
+
+  @ApiProperty()
   endDate: string;
+
+  @ApiProperty()
   jobType: string;
+
+  @ApiProperty()
   description: string;
 }
 
 export class WorkExperienceDto {
-  id: number;
-  company: string;
+  @ApiProperty()
+  organization: string;
+
+  @ApiProperty()
   jobs: JobDto[];
 }
 
 export class TechnicalSkillDto {
+  @ApiProperty()
   name: string;
+
+  @ApiProperty()
   rating: number;
 }
 
 export class EducationDto {
+  @ApiProperty()
   institution: string;
+
+  @ApiProperty()
   degree: string;
+
+  @ApiProperty()
   stream: string;
+
+  @ApiProperty()
   startYear: string;
+
+  @ApiProperty()
   endYear: string;
 }
 
 export class CertificationDto {
+  @ApiProperty()
   name: string;
+
+  @ApiProperty()
   issuer: string;
+
+  @ApiProperty()
   issuedOn: string;
 }
 
 export class CreateResumeDto {
   @IsNotEmpty()
+  @ApiProperty({ readOnly: true })
   profileId: string;
 
   @IsNotEmpty()
+  @ApiProperty({ type: [WorkExperienceDto] })
   workExperiences: WorkExperienceDto[];
 
   @IsNotEmpty()
+  @ApiProperty({ type: [TechnicalSkillDto] })
   technicalSkills: TechnicalSkillDto[];
 
   @IsNotEmpty()
+  @ApiProperty({ type: [EducationDto] })
   educations: EducationDto[];
 
+  @ApiProperty({ type: [CertificationDto] })
   certifications: CertificationDto[];
 }

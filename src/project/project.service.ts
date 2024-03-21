@@ -48,7 +48,7 @@ export class ProjectService {
   ): Promise<Project[]> {
     const profile = await this.findProfile(profileId);
     if (!profile) {
-      throw new NotFoundException(profileConstants.PROFILE_NOT_FOUND);
+      throw new NotFoundException(profileConstants.NOT_FOUND);
     }
     const createdProjects = await this.projectModel.insertMany(
       projectDataList.map((data: CreateProjectDto) => ({

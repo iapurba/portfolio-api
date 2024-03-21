@@ -11,13 +11,20 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { ProfileService } from './profile.service';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Profile } from './schemas/profile.schema';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { profileConstants } from 'src/common/constants/profile.constant';
+import { swaggerDocsConstants } from 'src/common/constants/swagger.constant';
 
 @ApiTags('Profiles')
 @Controller('profiles')
@@ -25,17 +32,26 @@ export class ProfileController {
   constructor(private profileService: ProfileService) {}
 
   @Get(':id')
+  @ApiOperation({
+    summary: swaggerDocsConstants.PROFILE.GET.SUMMARY,
+    description: swaggerDocsConstants.PROFILE.GET.DESC,
+  })
   async getProfile(@Param('id') id: string): Promise<Profile> {
     const profile = await this.profileService.getProfileById(id);
     if (!profile) {
-      throw new NotFoundException(profileConstants.PROFILE_NOT_FOUND);
+      throw new NotFoundException(profileConstants.NOT_FOUND);
     }
     return profile;
   }
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  @ApiBody({ description: 'Create Profile', type: CreateProfileDto })
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: swaggerDocsConstants.PROFILE.CREATE.SUMMARY,
+    description: swaggerDocsConstants.PROFILE.CREATE.DESC,
+  })
+  @ApiBody({ type: CreateProfileDto })
   @ApiOkResponse({ description: 'Created Profile details', type: Profile })
   async createProfile(
     @Body() createProfileDto: CreateProfileDto,
@@ -45,6 +61,12 @@ export class ProfileController {
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: swaggerDocsConstants.PROFILE.UPDATE.SUMMARY,
+    description: swaggerDocsConstants.PROFILE.UPDATE.DESC,
+  })
+  @ApiBody({ type: CreateProfileDto })
   async updateProfile(
     @Param('id') id: string,
     @Body() updateProfileDto: UpdateProfileDto,
@@ -55,6 +77,11 @@ export class ProfileController {
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: swaggerDocsConstants.PROFILE.DELETE.SUMMARY,
+    description: swaggerDocsConstants.PROFILE.DELETE.DESC,
+  })
   async deleteProfile(@Param('id') id: string) {
     console.log(id);
     return this.profileService.deleteProfile(id);

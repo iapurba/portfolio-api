@@ -53,15 +53,14 @@ export class ResumeService {
 
   async updateResume(
     profileId: string,
-    resumeId: string,
     updateResumeDto: UpdateResumeDto,
   ): Promise<Resume> {
     const profile = await this.profileService.getProfileById(profileId);
     if (!profile) {
       throw new BadRequestException(profileConstants.BAD_REQUEST);
     }
-    const updatedResume = await this.resumeModel.findByIdAndUpdate(
-      resumeId,
+    const updatedResume = await this.resumeModel.findOneAndUpdate(
+      { profileId: profileId },
       updateResumeDto,
       { new: true },
     );
