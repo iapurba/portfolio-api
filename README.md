@@ -1,36 +1,74 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Portfolio REST API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This is a RESTful API built with Nest.js, MongoDB, and TypeScript for managing portfolio-related data. The API provides CRUD (Create, Read, Update, Delete) operations for various resources including profiles, resumes, projects, contacts, and authentication.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Features
 
-## Description
+- **Profile Service**: Manages user profiles including details like name, email, bio, etc.
+  - Endpoints:
+    - GET /profiles/:id: Retrieve a specific profile by ID
+    - POST /profiles: Create a new profile
+    - PUT /profiles/:id: Update an existing profile
+    - DELETE /profiles/:id: Delete a profile
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Resume Service**: Manages user resumes including details like education, experience, skills, etc.
+  - Endpoints:
+    - GET /profiles/:profileId/resumes: Retrieve a specific resume by ID
+    - POST /profiles/:profileId/resumes: Create a new resume
+    - PUT /profiles/:profileId/resumes: Update an existing resume
+    - DELETE /profiles/:profileId/resumes: Delete a resume
 
-## Installation
+- **Project Service**: Manages user projects including details like title, description, technologies used, etc.
+  - Endpoints:
+    - GET /profiles/:profileId/projects: Retrieve all projects
+    - GET /profiles/:profileId/projects/:projectId: Retrieve a specific project by ID
+    - POST /profiles/:profileId/projects: Create one or multiple new projects
+    - PUT /profiles/:profileId/projects/:projectId: Update an existing project
+    - DELETE /profiles/:profileId/projects/:projectId: Delete a project
+
+- **Contact Service**: Manages user contacts including details like name, email, message, etc.
+  - Endpoints:
+    - POST /contacts: Create a new contact message
+
+- **Authentication Service**: Manages user authentication including registration, login, and logout.
+  - Endpoints:
+    - POST /auth/signup: Register a new user
+    - POST /auth/login: Authenticate user and generate access token
+
+## Getting Started
+
+To get started with the Portfolio REST API, follow these steps:
+
+1. Clone the repository:
+git clone <repository-url>
+
+2. Install dependencies:
 
 ```bash
+$ cd portfolio-api
+
 $ yarn install
 ```
+
+3. Set up environment variables:
+- Create a `.env` file based on the provided `.env.example`.
+- Modify the variables to match your environment setup.
+
+Example `.env.development` file:
+
+### MONGO DB CONNECTION STRINGS
+MONGO_DB_CONNECTION_STRING=<your-mongodb-connection-string>
+
+### SECRET KEY
+JWT_SECRET=<your-secret-key>
+
+### CONTACT EMAIL & APP PASSWORD
+NO_REPLY_EMAIL_ADDRESS=<your-email-address>
+NO_REPLY_EMAIL_PASSWORD=<your-email-password>
+
+NO_REPLY_EMAIL_ADDRESS_2=<another-email-address>
+NO_REPLY_EMAIL_PASSWORD_2=<another-email-password>
+
 
 ## Running the app
 
@@ -64,9 +102,7 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Author - [Apurba Panja](https://www.linkedin.com/in/iapurba/)
 
 ## License
 
