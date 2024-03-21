@@ -47,6 +47,8 @@ git clone <repository-url>
 
 ### 2. Install dependencies:
 
+Make sure you have nodejs and yarn installed 
+
 ```bash
 $ cd portfolio-api
 
@@ -57,22 +59,22 @@ $ yarn install
 - Create a `.env` file based on the provided `.env.example`.
 - Modify the variables to match your environment setup.
 
-Example `.env.development` file:
+Example `.env.development / .env.production` file:
 
 ```javascript
 # MONGO DB CONNECTION STRINGS
-MONGO_DB_CONNECTION_STRING=your-mongodb-connection-string
+MONGO_DB_CONNECTION_STRING=<your-mongodb-connection-string>
 
 # SECRET KEY
-JWT_SECRET=your-secret-key
+JWT_SECRET=<your-secret-key>
 
 # CONTACT EMAIL & APP PASSWORD
-NO_REPLY_EMAIL_ADDRESS=your-email-address
-NO_REPLY_EMAIL_PASSWORD=your-email-password
+NO_REPLY_EMAIL_ADDRESS=<your-email-address>
+NO_REPLY_EMAIL_PASSWORD=<your-email-password>
 
 # DEFAULT
-NO_REPLY_EMAIL_ADDRESS_2=another-email-address
-NO_REPLY_EMAIL_PASSWORD_2=another-email-password
+NO_REPLY_EMAIL_ADDRESS_2=<another-email-address>
+NO_REPLY_EMAIL_PASSWORD_2=<another-email-password>
 ```
 
 ### 4. Start the server:
