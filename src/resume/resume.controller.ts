@@ -23,6 +23,11 @@ import { swaggerDocsConstants } from 'src/common/constants/swagger.constant';
 export class ResumeController {
   constructor(private resumeService: ResumeService) {}
 
+  /**
+   * Retrieves the resume associated with the provided profile ID.
+   * @param profileId The ID of the profile whose resume is to be retrieved.
+   * @returns A Promise that resolves to the retrieved resume.
+   */
   @Get()
   @ApiOperation({
     summary: swaggerDocsConstants.RESUME.GET.SUMMARY,
@@ -32,8 +37,14 @@ export class ResumeController {
     return this.resumeService.getResumeByProfileId(profileId);
   }
 
-  @UseGuards(JwtAuthGuard)
+  /**
+   * Creates a new resume for the specified profile.
+   * @param profileId The ID of the profile for which the resume is to be created.
+   * @param createResumeDto The data to create the new resume.
+   * @returns A Promise that resolves to the created resume.
+   */
   @Post()
+  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({
     summary: swaggerDocsConstants.RESUME.CREATE.SUMMARY,
@@ -46,8 +57,14 @@ export class ResumeController {
     return this.resumeService.createResume(profileId, createResumeDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  /**
+   * Updates the resume associated with the specified profile.
+   * @param profileId The ID of the profile whose resume is to be updated.
+   * @param updateResumeDto The data to update the resume.
+   * @returns A Promise that resolves to the updated resume.
+   */
   @Put()
+  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({
     summary: swaggerDocsConstants.RESUME.UPDATE.SUMMARY,
@@ -61,6 +78,11 @@ export class ResumeController {
     return this.resumeService.updateResume(profileId, updateResumeDto);
   }
 
+  /**
+   * Deletes the resume associated with the specified profile.
+   * @param profileId The ID of the profile whose resume is to be deleted.
+   * @returns A Promise that resolves when the resume is successfully deleted.
+   */
   @UseGuards(JwtAuthGuard)
   @Delete()
   @ApiBearerAuth()

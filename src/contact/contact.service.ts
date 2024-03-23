@@ -24,6 +24,12 @@ export class ContactService {
     private readonly configService: ConfigService,
   ) {}
 
+  /**
+   * Sends a contact message.
+   * @param contactDto The contact message data.
+   * @returns A promise that resolves to a success message upon successful email sending.
+   * @throws InternalServerErrorException if an error occurs during email sending.
+   */
   async ContactMe(contactDto: ContactDto): Promise<any> {
     try {
       const { senderEmail, senderName, toProfile, subject, message } =
@@ -74,6 +80,20 @@ export class ContactService {
     }
   }
 
+  /**
+   * Sends an auto-reply email to the sender.
+   * @param noReplyEmailAddress The sender's email address.
+   * @param noReplyEmailPassword The sender's email password.
+   * @param senderEmail The sender's email address.
+   * @param senderName The sender's name.
+   * @param subject The email subject.
+   * @param message The email message.
+   * @param ownerName The owner's name.
+   * @param ownerEmail The owner's email address.
+   * @param ownerPhone The owner's phone number.
+   * @returns A promise that resolves to a success message upon successful email sending.
+   * @throws InternalServerErrorException if an error occurs during email sending.
+   */
   private async sendAutoReply(
     noReplyEmailAddress: string,
     noReplyEmailPassword: string,
@@ -106,6 +126,19 @@ export class ContactService {
     );
   }
 
+  /**
+   * Sends a notification email to the profile owner.
+   * @param noReplyEmailAddress The sender's email address.
+   * @param noReplyEmailPassword The sender's email password.
+   * @param senderEmail The sender's email address.
+   * @param senderName The sender's name.
+   * @param subject The email subject.
+   * @param message The email message.
+   * @param ownerName The owner's name.
+   * @param ownerEmail The owner's email address.
+   * @returns A promise that resolves to a success message upon successful email sending.
+   * @throws InternalServerErrorException if an error occurs during email sending.
+   */
   private async sendNotification(
     noReplyEmailAddress: string,
     noReplyEmailPassword: string,
@@ -139,6 +172,16 @@ export class ContactService {
     );
   }
 
+  /**
+   * Sends an email.
+   * @param senderEmailAddress The sender's email address.
+   * @param senderEmailPassword The sender's email password.
+   * @param to The recipient's email address.
+   * @param subject The email subject.
+   * @param htmlConent The email HTML content.
+   * @returns A promise that resolves to a success message upon successful email sending.
+   * @throws InternalServerErrorException if an error occurs during email sending.
+   */
   private async sendEmail(
     senderEmailAddress: string,
     senderEmailPassword: string,

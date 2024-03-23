@@ -21,6 +21,14 @@ export class ResumeService {
     private readonly profileService: ProfileService,
   ) {}
 
+  /**
+   * Retrieves a resume by profile ID.
+   * @param profileId The ID of the profile to retrieve the resume for.
+   * @returns A Promise that resolves to the retrieved resume.
+   * @throws BadRequestException if the provided profile ID is invalid.
+   * @throws NotFoundException if no resume is found for the provided profile ID.
+   * @throws InternalServerErrorException if an unexpected error occurs during the operation.
+   */
   async getResumeByProfileId(profileId: string): Promise<Resume> {
     try {
       const profile = await this.profileService.getProfileById(profileId);
@@ -37,6 +45,15 @@ export class ResumeService {
     }
   }
 
+  /**
+   * Creates a new resume for a profile.
+   * @param profileId The ID of the profile to create the resume for.
+   * @param resumeData The data for creating the resume.
+   * @returns A Promise that resolves to the created resume.
+   * @throws BadRequestException if the provided profile ID is invalid.
+   * @throws ConflictException if a resume already exists for the provided profile ID.
+   * @throws InternalServerErrorException if an unexpected error occurs during the operation.
+   */
   async createResume(
     profileId: string,
     resumeData: CreateResumeDto,
@@ -60,6 +77,15 @@ export class ResumeService {
     }
   }
 
+  /**
+   * Updates an existing resume for a profile.
+   * @param profileId The ID of the profile to update the resume for.
+   * @param updateResumeDto The data for updating the resume.
+   * @returns A Promise that resolves to the updated resume.
+   * @throws BadRequestException if the provided profile ID is invalid.
+   * @throws NotFoundException if no resume is found for the provided profile ID.
+   * @throws InternalServerErrorException if an unexpected error occurs during the operation.
+   */
   async updateResume(
     profileId: string,
     updateResumeDto: UpdateResumeDto,
@@ -83,6 +109,12 @@ export class ResumeService {
     }
   }
 
+  /**
+   * Deletes a resume for a profile.
+   * @param profileId The ID of the profile to delete the resume for.
+   * @throws BadRequestException if the provided profile ID is invalid.
+   * @throws InternalServerErrorException if an unexpected error occurs during the operation.
+   */
   async deleteResume(profileId: string) {
     const profile = await this.profileService.getProfileById(profileId);
     if (!profile) {

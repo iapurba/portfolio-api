@@ -20,6 +20,11 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
+  /**
+   * Registers a new user.
+   * @param signUpDto The data necessary for user registration.
+   * @returns A Promise containing a message confirming the user creation and user information.
+   */
   async signUp(signUpDto: SignUpDto) {
     try {
       const hashedPassword = await bcrypt.hash(signUpDto.password, 10);
@@ -41,6 +46,11 @@ export class AuthService {
     }
   }
 
+  /**
+   * Logs in an existing user.
+   * @param loginDto The login credentials of the user.
+   * @returns A Promise containing an access token upon successful login.
+   */
   async login(loginDto: LoginDto) {
     try {
       const user = await this.userService.findOneByEmail(loginDto.email);
@@ -63,14 +73,29 @@ export class AuthService {
     }
   }
 
+  /**
+   * Logs out a user by blacklisting the provided token.
+   * @param token The JWT token to be blacklisted.
+   * @returns A Promise that resolves once the token is blacklisted.
+   */
   async logout(token: string): Promise<void> {
     this.tokenBlacklist.add(token);
   }
 
+  /**
+   * Checks if a token is blacklisted.
+   * @param token The JWT token to be checked.
+   * @returns A Promise resolving to true if the token is blacklisted, false otherwise.
+   */
   async isTokenBlacklisted(token: string): Promise<boolean> {
     return this.tokenBlacklist.has(token);
   }
 
+  /**
+   * Validates a user using the JWT payload.
+   * @param payload The JWT payload containing user information.
+   * @returns A Promise containing user information if the user is valid, null otherwise.
+   */
   async validateUser(payload: JwtPayload): Promise<any> {
     try {
       const user = await this.userService.findOneByEmail(payload.email);

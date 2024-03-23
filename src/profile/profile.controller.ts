@@ -33,6 +33,12 @@ import { AdminGuard } from 'src/auth/guards/admin.guard';
 export class ProfileController {
   constructor(private profileService: ProfileService) {}
 
+  /**
+   * Retrieves a profile by its ID.
+   * @param id The ID of the profile to retrieve.
+   * @returns The profile object.
+   * @throws NotFoundException if the profile with the specified ID is not found.
+   */
   @Get(':id')
   @ApiOperation({
     summary: swaggerDocsConstants.PROFILE.GET.SUMMARY,
@@ -46,6 +52,12 @@ export class ProfileController {
     return profile;
   }
 
+  /**
+   * Creates a new profile.
+   * @param createProfileDto The data to create the profile.
+   * @returns The created profile object.
+   * @throws BadRequestException if a profile with the same email already exists.
+   */
   @Post()
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
@@ -67,8 +79,14 @@ export class ProfileController {
     return this.profileService.createProfile(createProfileDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  /**
+   * Updates an existing profile.
+   * @param id The ID of the profile to update.
+   * @param updateProfileDto The data to update the profile.
+   * @returns The updated profile object.
+   */
   @Put(':id')
+  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({
     summary: swaggerDocsConstants.PROFILE.UPDATE.SUMMARY,
@@ -82,6 +100,11 @@ export class ProfileController {
     return this.profileService.updateProfile(id, updateProfileDto);
   }
 
+  /**
+   * Deletes a profile by its ID.
+   * @param id The ID of the profile to delete.
+   * @returns No content.
+   */
   @Delete(':id')
   @UseGuards(JwtAuthGuard, AdminGuard)
   @HttpCode(HttpStatus.NO_CONTENT)

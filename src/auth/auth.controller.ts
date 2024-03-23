@@ -19,6 +19,11 @@ import { AdminGuard } from './guards/admin.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  /**
+   * Registers a new user.
+   * @param signUpDto The data necessary for user registration.
+   * @returns A Promise containing the newly created user information.
+   */
   @Post('/signup')
   @UseGuards(JwtAuthGuard, AdminGuard)
   @ApiBearerAuth()
@@ -32,6 +37,11 @@ export class AuthController {
     return this.authService.signUp(signUpDto);
   }
 
+  /**
+   * Logs in an existing user.
+   * @param loginDto The login credentials of the user.
+   * @returns A Promise containing authentication information for the logged-in user.
+   */
   @HttpCode(HttpStatus.OK)
   @Post('/login')
   @ApiBody({ type: LoginDto })
