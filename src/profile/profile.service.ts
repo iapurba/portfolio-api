@@ -24,6 +24,14 @@ export class ProfileService {
     }
   }
 
+  async getProfileByEmail(email: string): Promise<Profile | null> {
+    try {
+      return this.profileModel.findOne({ email }).exec();
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }
+
   async getFullProfile(id: string): Promise<Profile> {
     try {
       const profile = await this.profileModel.findById(id);

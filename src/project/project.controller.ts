@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseArrayPipe,
   Post,
   Put,
   UseGuards,
@@ -67,7 +68,8 @@ export class ProjectController {
   })
   async createProjects(
     @Param('profileId') profileId: string,
-    @Body() projectDataList: CreateProjectDto[],
+    @Body(new ParseArrayPipe({ items: CreateProjectDto }))
+    projectDataList: CreateProjectDto[],
   ): Promise<Project[]> {
     return this.projectService.createProjects(profileId, projectDataList);
   }

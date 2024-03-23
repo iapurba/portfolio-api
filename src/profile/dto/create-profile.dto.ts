@@ -4,6 +4,7 @@ import {
   IsArray,
   IsEmail,
   IsNotEmpty,
+  IsString,
   IsUrl,
 } from 'class-validator';
 
@@ -14,14 +15,17 @@ export class CreateProfileDto {
   readonly email: string;
 
   @IsNotEmpty()
+  @IsString()
   @ApiProperty()
   readonly firstname: string;
 
   @IsNotEmpty()
+  @IsString()
   @ApiProperty()
   readonly lastname: string;
 
   @IsNotEmpty()
+  @IsString()
   @ApiProperty()
   readonly intro: string;
 
@@ -32,6 +36,7 @@ export class CreateProfileDto {
   readonly jobs: [string];
 
   @IsNotEmpty()
+  @IsString()
   @ApiProperty()
   readonly bio: string;
 

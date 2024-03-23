@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  ArrayMinSize,
+  IsArray,
+  IsNotEmpty,
+  ValidateNested,
+} from 'class-validator';
 
 export class JobDto {
   @ApiProperty()
@@ -68,17 +74,30 @@ export class CreateResumeDto {
   profileId: string;
 
   @IsNotEmpty()
+  @IsArray()
+  @ArrayMinSize(1)
   @ApiProperty({ type: [WorkExperienceDto] })
+  @ValidateNested({ each: true })
   workExperiences: WorkExperienceDto[];
 
   @IsNotEmpty()
+  @IsArray()
+  @ArrayMinSize(3)
+  @Type(() => TechnicalSkillDto)
+  @ValidateNested({ each: true })
   @ApiProperty({ type: [TechnicalSkillDto] })
   technicalSkills: TechnicalSkillDto[];
 
   @IsNotEmpty()
+  @IsArray()
+  @ArrayMinSize(1)
+  @Type(() => EducationDto)
+  @ValidateNested({ each: true })
   @ApiProperty({ type: [EducationDto] })
   educations: EducationDto[];
 
+  @Type(() => CertificationDto)
+  @ValidateNested({ each: true })
   @ApiProperty({ type: [CertificationDto] })
   certifications: CertificationDto[];
 }

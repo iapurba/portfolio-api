@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -45,8 +46,8 @@ export class ProfileController {
     return profile;
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post()
+  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({
     summary: swaggerDocsConstants.PROFILE.CREATE.SUMMARY,
@@ -57,6 +58,12 @@ export class ProfileController {
   async createProfile(
     @Body() createProfileDto: CreateProfileDto,
   ): Promise<Profile> {
+    const existingProfile = await this.profileService.getProfileByEmail(
+      createProfileDto.email,
+    );
+    if (existingProfile) {
+      throw new BadRequestException(profileConstants.ALREADY_EXIST);
+    }
     return this.profileService.createProfile(createProfileDto);
   }
 
