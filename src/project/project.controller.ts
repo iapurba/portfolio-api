@@ -23,6 +23,11 @@ import { swaggerDocsConstants } from 'src/common/constants/swagger.constant';
 export class ProjectController {
   constructor(private projectService: ProjectService) {}
 
+  /**
+   * Retrieves all projects associated with a given profile.
+   * @param profileId The ID of the profile.
+   * @returns A promise resolving to an array of projects.
+   */
   @Get()
   @ApiOperation({
     summary: swaggerDocsConstants.PROJECT.GET_ALL.SUMMARY,
@@ -32,6 +37,11 @@ export class ProjectController {
     return this.projectService.findProjectsByProfileId(profileId);
   }
 
+  /**
+   * Retrieves a project by its ID.
+   * @param projectId The ID of the project.
+   * @returns A promise resolving to the project object.
+   */
   @Get(':projectId')
   @ApiOperation({
     summary: swaggerDocsConstants.PROJECT.GET.SUMMARY,
@@ -41,6 +51,12 @@ export class ProjectController {
     return this.projectService.getProject(projectId);
   }
 
+  /**
+   * Creates multiple projects associated with a given profile.
+   * @param profileId The ID of the profile to associate the projects with.
+   * @param projectDataList An array of objects containing project data.
+   * @returns A promise resolving to an array of created projects.
+   */
   @UseGuards(JwtAuthGuard)
   @Post()
   @ApiBearerAuth()
@@ -56,6 +72,12 @@ export class ProjectController {
     return this.projectService.createProjects(profileId, projectDataList);
   }
 
+  /**
+   * Updates a project by its ID.
+   * @param projectId The ID of the project to update.
+   * @param updateProjectDto The data to update the project with.
+   * @returns A promise resolving to the updated project object.
+   */
   @UseGuards(JwtAuthGuard)
   @Put(':projectId')
   @ApiBearerAuth()
@@ -71,6 +93,11 @@ export class ProjectController {
     return this.projectService.updateProject(projectId, updateProjectDto);
   }
 
+  /**
+   * Deletes a project by its ID.
+   * @param profileId The ID of the profile associated with the project.
+   * @param projectId The ID of the project to delete.
+   */
   @UseGuards(JwtAuthGuard)
   @Delete(':projectId')
   @HttpCode(HttpStatus.NO_CONTENT)
