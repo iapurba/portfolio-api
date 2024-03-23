@@ -4,6 +4,7 @@ import {
   ArrayMinSize,
   IsArray,
   IsNotEmpty,
+  IsOptional,
   ValidateNested,
 } from 'class-validator';
 
@@ -96,6 +97,7 @@ export class CreateResumeDto {
   @ApiProperty({ type: [EducationDto] })
   educations: EducationDto[];
 
+  @IsOptional()
   @Type(() => CertificationDto)
   @ValidateNested({ each: true })
   @ApiProperty({ type: [CertificationDto] })

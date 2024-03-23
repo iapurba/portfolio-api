@@ -3,6 +3,7 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsStrongPassword,
 } from 'class-validator';
@@ -29,7 +30,8 @@ export class SignUpDto {
   @ApiProperty()
   readonly lastname: string;
 
+  @IsOptional()
   @IsEnum(UserRole)
-  @ApiProperty({ required: false })
-  readonly role: UserRole;
+  @ApiProperty({ enum: UserRole, default: UserRole.USER })
+  readonly role?: UserRole = UserRole.USER;
 }

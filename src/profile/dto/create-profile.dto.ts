@@ -4,6 +4,7 @@ import {
   IsArray,
   IsEmail,
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsUrl,
 } from 'class-validator';
@@ -55,6 +56,7 @@ export class CreateProfileDto {
     readonly phone: string;
   };
 
+  @IsOptional()
   @ApiProperty({
     type: 'object',
     properties: {
@@ -98,6 +100,7 @@ export class CreateProfileDto {
   @ApiProperty()
   readonly downloadCvUrl: string;
 
+  @IsOptional()
   @ApiProperty({
     required: false,
     properties: {

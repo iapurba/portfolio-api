@@ -3,6 +3,7 @@ import {
   ArrayMinSize,
   IsArray,
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsUrl,
 } from 'class-validator';
@@ -36,6 +37,7 @@ export class CreateProjectDto {
     { require_tld: false },
     { message: 'Invalid URL provided for source code URL' },
   )
+  @IsOptional()
   @ApiProperty({ required: false })
   sourceCodeUrl: string;
 
@@ -43,6 +45,7 @@ export class CreateProjectDto {
     { require_tld: false },
     { message: 'Invalid URL provided for live URL' },
   )
+  @IsOptional()
   @ApiProperty({ required: false })
   liveUrl: string;
 }
