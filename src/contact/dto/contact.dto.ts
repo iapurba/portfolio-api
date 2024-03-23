@@ -12,13 +12,13 @@ export class ContactDto {
 
   @IsNotEmpty()
   @ApiProperty()
-  toProfileId: string;
-
-  @IsNotEmpty()
-  @ApiProperty()
   subject: string;
 
   @IsNotEmpty()
   @ApiProperty()
   message: string;
+
+  @IsNotEmpty()
+  @ApiProperty()
+  toProfile: string;
 }

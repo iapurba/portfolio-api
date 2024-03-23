@@ -1,4 +1,11 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  InternalServerErrorException,
+  Post,
+} from '@nestjs/common';
 import { ContactService } from './contact.service';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ContactDto } from './dto/contact.dto';
@@ -17,6 +24,11 @@ export class ContactController {
   })
   @HttpCode(HttpStatus.OK)
   async contactMe(@Body() contactDto: ContactDto): Promise<any> {
-    return this.contactService.ContactMe(contactDto);
+    try {
+      return this.contactService.ContactMe(contactDto);
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(error.message);
+    }
   }
 }

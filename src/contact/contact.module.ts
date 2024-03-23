@@ -2,16 +2,17 @@ import { Module } from '@nestjs/common';
 import { ContactService } from './contact.service';
 import { ContactController } from './contact.controller';
 import { ConfigModule } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
 import { ProfileModule } from 'src/profile/profile.module';
-import { Profile, ProfileSchema } from 'src/profile/schemas/profile.schema';
 import { ProfileService } from 'src/profile/profile.service';
+import { ProfileModelModule } from 'src/profile/schemas/profile.model';
+import { ContactModelModule } from './schemas/contact.model';
 
 @Module({
   imports: [
     ProfileModule,
     ConfigModule,
-    MongooseModule.forFeature([{ name: Profile.name, schema: ProfileSchema }]),
+    ContactModelModule,
+    ProfileModelModule,
   ],
   providers: [ContactService, ProfileService],
   controllers: [ContactController],
