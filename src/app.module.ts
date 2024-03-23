@@ -11,7 +11,7 @@ import { AppController } from './app.controller';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ envFilePath: '.env.production' }),
+    ConfigModule.forRoot({ envFilePath: '.env.development' }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
