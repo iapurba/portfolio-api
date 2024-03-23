@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import { Profile } from 'src/profile/schemas/profile.schema';
 
-@Schema()
+@Schema({ timestamps: true })
 export class Project extends Document {
   @Prop({
     required: true,

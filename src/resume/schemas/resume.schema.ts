@@ -36,7 +36,7 @@ export interface Certification {
 
 export type ResumeDocument = HydratedDocument<Resume>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Resume {
   @Prop({
     required: true,

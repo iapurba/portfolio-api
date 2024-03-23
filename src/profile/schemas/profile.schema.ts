@@ -15,7 +15,7 @@ interface SocialAccounts {
   x?: string;
 }
 
-@Schema()
+@Schema({ timestamps: true })
 export class Profile extends Document {
   @Prop({
     type: String,
