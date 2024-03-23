@@ -12,14 +12,15 @@ import { SignUpDto } from './dto/signup.dto';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { swaggerDocsConstants } from 'src/common/constants/swagger.constant';
+import { AdminGuard } from './guards/admin.guard';
 
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Post('/signup')
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @ApiBearerAuth()
   @ApiBody({ type: SignUpDto })
   @ApiOperation({

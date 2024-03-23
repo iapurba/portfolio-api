@@ -25,6 +25,7 @@ import { Profile } from './schemas/profile.schema';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { profileConstants } from 'src/common/constants/profile.constant';
 import { swaggerDocsConstants } from 'src/common/constants/swagger.constant';
+import { AdminGuard } from 'src/auth/guards/admin.guard';
 
 @ApiTags('Profiles')
 @Controller('profiles')
@@ -74,8 +75,8 @@ export class ProfileController {
     return this.profileService.updateProfile(id, updateProfileDto);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Delete(':id')
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiBearerAuth()
   @ApiOperation({

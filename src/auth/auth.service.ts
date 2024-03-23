@@ -10,48 +10,25 @@ import * as bcrypt from 'bcrypt';
 import { LoginDto } from './dto/login.dto';
 import { SignUpDto } from './dto/signup.dto';
 import { JwtPayload } from './interface/jwt-payload.interface';
+import { authConstants } from 'src/common/constants/auth.constant';
 
 @Injectable()
 export class AuthService {
+  private readonly tokenBlacklist: Set<string> = new Set();
   constructor(
     private readonly userService: UsersService,
     private readonly jwtService: JwtService,
   ) {}
 
-  async login(loginDto: LoginDto) {
-    try {
-      const user = await this.userService.findOneByEmail(loginDto.email);
-      if (!user) {
-        throw new NotFoundException('User does not exist');
-      }
-      const passwordMatch = await bcrypt.compare(
-        loginDto.password,
-        user.password,
-      );
-      if (!passwordMatch) {
-        throw new UnauthorizedException('Invalid Credentials');
-      }
-      const payload = { email: user.email, sub: user._id, role: user.role };
-      return {
-        access_token: this.jwtService.sign(payload),
-      };
-    } catch (error) {
-      throw new InternalServerErrorException(error.message);
-    }
-  }
-
   async signUp(signUpDto: SignUpDto) {
     try {
       const hashedPassword = await bcrypt.hash(signUpDto.password, 10);
       const createdUser = await this.userService.createUser({
-        email: signUpDto.email,
-        firstname: signUpDto.firstname,
-        lastname: signUpDto.lastname,
+        ...signUpDto,
         password: hashedPassword,
-        role: signUpDto.role,
       });
       return {
-        message: 'User Created Successful',
+        message: authConstants.USER_CREATED,
         user: {
           email: createdUser.email,
           firstname: createdUser.firstname,
@@ -64,10 +41,40 @@ export class AuthService {
     }
   }
 
+  async login(loginDto: LoginDto) {
+    try {
+      const user = await this.userService.findOneByEmail(loginDto.email);
+      if (!user) {
+        throw new NotFoundException(authConstants.NOT_FOUND);
+      }
+      const passwordMatch = await bcrypt.compare(
+        loginDto.password,
+        user.password,
+      );
+      if (!passwordMatch) {
+        throw new UnauthorizedException(authConstants.PASSWORD_INVALID);
+      }
+      const payload = { email: user.email, sub: user._id, role: user.role };
+      return {
+        access_token: this.jwtService.sign(payload),
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }
+
+  async logout(token: string): Promise<void> {
+    this.tokenBlacklist.add(token);
+  }
+
+  async isTokenBlacklisted(token: string): Promise<boolean> {
+    return this.tokenBlacklist.has(token);
+  }
+
   async validateUser(payload: JwtPayload): Promise<any> {
     try {
       const user = await this.userService.findOneByEmail(payload.email);
-      return user ? { email: user.email, id: user._id } : null;
+      return user ? { email: user.email, id: user._id, role: user.role } : null;
     } catch (error) {
       throw new InternalServerErrorException(error.message);
     }
