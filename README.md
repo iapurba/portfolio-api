@@ -58,6 +58,7 @@ $ yarn install
 ### 3. Set up environment variables:
 - Create a `.env` file based on the provided `.env.example`.
 - Modify the variables to match your environment setup.
+- Update line #14 in `app.module.ts` with the newly created env filename.
 
 Example `.env.development / .env.production` file:
 
