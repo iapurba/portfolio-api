@@ -17,6 +17,13 @@ interface SocialAccounts {
 
 @Schema()
 export class Profile extends Document {
+  @Prop({
+    type: String,
+    required: true,
+    unique: true,
+  })
+  email: string;
+
   @Prop({ required: true })
   firstname: string;
 
@@ -46,6 +53,12 @@ export class Profile extends Document {
 
   @Prop({ required: true })
   downloadCvUrl: string;
+
+  @Prop({ required: false, type: Object })
+  autoEmailCredentials: {
+    email: string;
+    passcode: string;
+  };
 }
 
 export const ProfileSchema = SchemaFactory.createForClass(Profile);

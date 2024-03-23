@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Profile } from './schemas/profile.schema';
 import { Model } from 'mongoose';
@@ -13,42 +17,58 @@ export class ProfileService {
   ) {}
 
   async getProfileById(id: string): Promise<Profile | null> {
-    return this.profileModel.findById(id).exec();
+    try {
+      return this.profileModel.findById(id).exec();
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   async getFullProfile(id: string): Promise<Profile> {
-    const profile = await this.profileModel.findById(id);
-    if (!profile) {
-      throw new NotFoundException(profileConstants.NOT_FOUND);
+    try {
+      const profile = await this.profileModel.findById(id);
+      if (!profile) {
+        throw new NotFoundException(profileConstants.NOT_FOUND);
+      }
+      return profile;
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
     }
-    return profile;
   }
 
   async createProfile(createProfileDto: CreateProfileDto): Promise<Profile> {
-    const createProfile = new this.profileModel(createProfileDto);
-    return createProfile.save();
+    try {
+      const createProfile = new this.profileModel(createProfileDto);
+      return await createProfile.save();
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   async updateProfile(
     id: string,
     updateProfileDto: UpdateProfileDto,
   ): Promise<Profile> {
-    const updatedProfile = await this.profileModel.findByIdAndUpdate(
-      id,
-      updateProfileDto,
-      { new: true },
-    );
-    if (!updatedProfile) {
-      throw new NotFoundException(profileConstants.NOT_FOUND);
+    try {
+      const updatedProfile = await this.profileModel.findByIdAndUpdate(
+        id,
+        updateProfileDto,
+        { new: true },
+      );
+      if (!updatedProfile) {
+        throw new NotFoundException(profileConstants.NOT_FOUND);
+      }
+      return updatedProfile;
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
     }
-    return updatedProfile;
   }
 
   async deleteProfile(id: string) {
     try {
       await this.profileModel.findByIdAndDelete(id);
     } catch (error) {
-      throw error;
+      throw new InternalServerErrorException(error.message);
     }
   }
 }

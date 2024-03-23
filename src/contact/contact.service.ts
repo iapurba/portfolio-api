@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import { ContactDto } from './dto/contact.dto';
 import { EmailOptions } from './interfaces/email-options.interface';
@@ -7,6 +11,7 @@ import { ProfileService } from 'src/profile/profile.service';
 import * as fs from 'fs';
 import { join } from 'path';
 import { contactConstants } from 'src/common/constants/contact.constant';
+import { profileConstants } from 'src/common/constants/profile.constant';
 
 @Injectable()
 export class ContactService {
@@ -18,53 +23,45 @@ export class ContactService {
   async ContactMe(contactDto: ContactDto): Promise<any> {
     const { senderEmail, senderName, toProfileId, subject, message } =
       contactDto;
-    const owner = await this.profileService.getProfileById(toProfileId);
-    if (!owner) {
-      throw new NotFoundException('Owner Profile Not Found');
+    const profile = await this.profileService.getProfileById(toProfileId);
+    if (!profile) {
+      throw new BadRequestException(profileConstants.BAD_REQUEST);
     }
-    const ownerName = `${owner.firstname}_${owner.lastname}`.toUpperCase();
-    console.log(ownerName);
+    const noReplyEmail = profile?.autoEmailCredentials?.email;
+    const noReplyPasscode = profile?.autoEmailCredentials?.passcode;
 
-    const noReplyEmailAddress = this.configService.get(
-      ownerName === 'SOURAV_DINDA'
-        ? 'NO_REPLY_EMAIL_ADDRESS'
-        : 'NO_REPLY_EMAIL_ADDRESS_2',
+    const defaultNoReplyEmail = this.configService.get(
+      contactConstants.NO_REPLY_EMAIL_ADDRESS,
     );
-    const noReplyEmailPassword = this.configService.get(
-      ownerName === 'SOURAV_DINDA'
-        ? 'NO_REPLY_EMAIL_PASSWORD'
-        : 'NO_REPLY_EMAIL_PASSWORD_2',
+    const defaultNoReplyPasscode = this.configService.get(
+      contactConstants.NO_REPLY_EMAIL_PASSCODE,
     );
+
     // Send auto reply to the sender email address
-    const autoReply = await this.sendAutoReply(
-      noReplyEmailAddress,
-      noReplyEmailPassword,
+    await this.sendAutoReply(
+      noReplyEmail ?? defaultNoReplyEmail,
+      noReplyPasscode ?? defaultNoReplyPasscode,
       senderEmail,
       senderName,
       subject,
       message,
-      owner?.firstname,
-      owner?.contactDetails?.email,
-      owner?.contactDetails?.phone,
+      profile?.firstname,
+      profile?.contactDetails.email,
+      profile?.contactDetails?.phone,
     );
 
     // Send a notification to the owner email address
-    const notification = await this.sendNotification(
-      noReplyEmailAddress,
-      noReplyEmailPassword,
+    await this.sendNotification(
+      noReplyEmail ?? defaultNoReplyEmail,
+      noReplyPasscode ?? defaultNoReplyPasscode,
       senderEmail,
       senderName,
       subject,
       message,
-      owner?.firstname,
-      owner?.contactDetails?.email,
+      profile?.firstname,
+      profile?.contactDetails.email,
     );
-    return {
-      info: {
-        autoReply,
-        notification,
-      },
-    };
+    return { message: contactConstants.SUCCESS };
   }
 
   private async sendAutoReply(
@@ -159,8 +156,7 @@ export class ContactService {
       console.log(`Email sent: ${info.response}`);
       return `Email send to ${to} successfully.`;
     } catch (error) {
-      console.log(error.message);
-      throw new Error('Failed to send email');
+      throw new InternalServerErrorException(error.message);
     }
   }
 }

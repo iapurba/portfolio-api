@@ -1,7 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ArrayMinSize, IsArray, IsNotEmpty, IsUrl } from 'class-validator';
+import {
+  ArrayMinSize,
+  IsArray,
+  IsEmail,
+  IsNotEmpty,
+  IsUrl,
+} from 'class-validator';
 
 export class CreateProfileDto {
+  @IsNotEmpty()
+  @IsEmail()
+  @ApiProperty()
+  readonly email: string;
+
   @IsNotEmpty()
   @ApiProperty()
   readonly firstname: string;
@@ -81,4 +92,16 @@ export class CreateProfileDto {
   @IsNotEmpty()
   @ApiProperty()
   readonly downloadCvUrl: string;
+
+  @ApiProperty({
+    required: false,
+    properties: {
+      email: { type: 'string' },
+      passcode: { type: 'string' },
+    },
+  })
+  readonly autoEmailCredentials: {
+    email: string;
+    passcode: string;
+  };
 }
