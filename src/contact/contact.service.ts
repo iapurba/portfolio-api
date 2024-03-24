@@ -11,7 +11,6 @@ import { ProfileService } from 'src/profile/profile.service';
 import * as fs from 'fs';
 import { join } from 'path';
 import { contactConstants } from 'src/common/constants/contact.constant';
-import { profileConstants } from 'src/common/constants/profile.constant';
 import { InjectModel } from '@nestjs/mongoose';
 import { Contact } from './schemas/contact.schema';
 import { Model } from 'mongoose';
@@ -32,11 +31,11 @@ export class ContactService {
    */
   async ContactMe(contactDto: ContactDto): Promise<any> {
     try {
-      const { senderEmail, senderName, toProfile, subject, message } =
+      const { senderEmail, senderName, toProfileId, subject, message } =
         contactDto;
-      const profile = await this.profileService.getProfileById(toProfile);
+      const profile = await this.profileService.getProfileById(toProfileId);
       if (!profile) {
-        throw new BadRequestException(profileConstants.BAD_REQUEST);
+        throw new BadRequestException(contactConstants.INVALID_PROFILE);
       }
       const noReplyEmail = profile?.autoEmailCredentials?.email;
       const noReplyPasscode = profile?.autoEmailCredentials?.passcode;

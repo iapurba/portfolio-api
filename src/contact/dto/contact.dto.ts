@@ -25,5 +25,5 @@ export class ContactDto {
   @IsNotEmpty()
   @IsString()
   @ApiProperty()
-  toProfile: string;
+  toProfileId: string;
 }

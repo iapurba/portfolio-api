@@ -21,7 +21,7 @@ export class Contact extends Document {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Profile',
   })
-  toProfile: Profile;
+  toProfileId: Profile;
 }
 
 export const ContactSchema = SchemaFactory.createForClass(Contact);
