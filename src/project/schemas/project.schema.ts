@@ -24,7 +24,7 @@ export class Project extends Document {
   imageUrl: string;
 
   @Prop()
-  souceCodeUrl: string;
+  sourceCodeUrl: string;
 
   @Prop()
   liveUrl: string;

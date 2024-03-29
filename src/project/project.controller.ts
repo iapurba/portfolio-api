@@ -40,6 +40,7 @@ export class ProjectController {
 
   /**
    * Retrieves a project by its ID.
+   * @param profileId The ID of the profile to associate the projects with.
    * @param projectId The ID of the project.
    * @returns A promise resolving to the project object.
    */
@@ -48,8 +49,11 @@ export class ProjectController {
     summary: swaggerDocsConstants.PROJECT.GET.SUMMARY,
     description: swaggerDocsConstants.PROJECT.GET.DESC,
   })
-  async getProject(@Param('projectId') projectId: string): Promise<Project> {
-    return this.projectService.getProject(projectId);
+  async getProject(
+    @Param('profileId') profileId: string,
+    @Param('projectId') projectId: string,
+  ): Promise<Project> {
+    return this.projectService.getProject(profileId, projectId);
   }
 
   /**
@@ -76,6 +80,7 @@ export class ProjectController {
 
   /**
    * Updates a project by its ID.
+   * @param profileId The ID of the profile associated with the project.
    * @param projectId The ID of the project to update.
    * @param updateProjectDto The data to update the project with.
    * @returns A promise resolving to the updated project object.
@@ -89,10 +94,15 @@ export class ProjectController {
     description: swaggerDocsConstants.PROJECT.UPDATE.DESC,
   })
   async updateProject(
+    @Param('profileId') profileId: string,
     @Param('projectId') projectId: string,
     @Body() updateProjectDto: UpdateProjectDto,
   ): Promise<Project> {
-    return this.projectService.updateProject(projectId, updateProjectDto);
+    return this.projectService.updateProject(
+      profileId,
+      projectId,
+      updateProjectDto,
+    );
   }
 
   /**

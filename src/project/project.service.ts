@@ -64,13 +64,18 @@ export class ProjectService {
    * Retrieves a project by its ID.
    * If the project with the provided ID does not exist, throws a NotFoundException.
    * If an unexpected error occurs during the process, throws an InternalServerErrorException.
+   * @param profileId The ID of the profile associated with the project.
    * @param projectId The ID of the project to retrieve.
    * @returns A promise resolving to the project object if found.
    * @throws NotFoundException If the project with the given ID does not exist.
    * @throws InternalServerErrorException If an unexpected error occurs.
    */
-  async getProject(projectId: string): Promise<Project> {
+  async getProject(profileId: string, projectId: string): Promise<Project> {
     try {
+      const profile = await this.profileService.getProfileById(profileId);
+      if (!profile) {
+        throw new BadRequestException(profileConstants.BAD_REQUEST);
+      }
       const project = await this.projectModel.findById(projectId);
       if (!project) {
         throw new NotFoundException(projectConstants.NOT_FOUND);
@@ -116,6 +121,7 @@ export class ProjectService {
    * Updates a project by its ID.
    * If the project with the provided ID does not exist, throws a NotFoundException.
    * If an unexpected error occurs during the process, throws an InternalServerErrorException.
+   * @param profileId The ID of the profile associated with the project.
    * @param projectId The ID of the project to update.
    * @param updateProjectDto The data to update the project with.
    * @returns A promise resolving to the updated project object.
@@ -123,10 +129,15 @@ export class ProjectService {
    * @throws InternalServerErrorException If an unexpected error occurs.
    */
   async updateProject(
+    profileId: string,
     projectId: string,
     updateProjectDto: UpdateProjectDto,
   ): Promise<Project> {
     try {
+      const profile = await this.profileService.getProfileById(profileId);
+      if (!profile) {
+        throw new BadRequestException(profileConstants.BAD_REQUEST);
+      }
       const updatedProject = await this.projectModel.findByIdAndUpdate(
         projectId,
         updateProjectDto,
